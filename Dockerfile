@@ -25,20 +25,20 @@ RUN \
         nodejs \
         nginx \
         nginx-mod-stream \
-        mariadb \
-        mariadb-client \
-        mariadb-server-utils \
-        certbot \
-        openssl \
-        apache2-utils \
+#        mariadb \
+#        mariadb-client \
+#        mariadb-server-utils \
+#        certbot \
+#        openssl \
+#        apache2-utils \
         logrotate \
         && \
     # Adjust the logrotate config file.
     sed-patch 's|^/var/log/messages|#/var/log/messages|' /etc/logrotate.conf && \
     # Clean some uneeded stuff from mariadb.
-    rm -r \
-        /var/lib/mysql \
-        && \
+#    rm -r \
+#        /var/lib/mysql \
+#        && \
     # Clean some uneeded stuff from nginx.
     mv /etc/nginx/fastcgi.conf /tmp/ && \
     mv /etc/nginx/fastcgi_params /tmp/ && \
@@ -59,7 +59,7 @@ RUN \
     mkdir -p /var/lib/nginx/logs && \
     ln -sf /config/log/nginx/error.log /var/lib/nginx/logs/error.log && \
     # Make sure mariadb listen on port 3306
-    sed-patch 's/^skip-networking/#skip-networking/' /etc/my.cnf.d/mariadb-server.cnf
+ #   sed-patch 's/^skip-networking/#skip-networking/' /etc/my.cnf.d/mariadb-server.cnf
 
 # Install Nginx Proxy Manager.
 RUN \
@@ -111,7 +111,7 @@ RUN \
     cp -r /app/frontend/dist /opt/nginx-proxy-manager/frontend && \
     cp -r nginx-proxy-manager/docker/rootfs/etc/nginx /etc/ && \
     cp -r nginx-proxy-manager/docker/rootfs/var/www /var/ && \
-    cp -r nginx-proxy-manager/docker/rootfs/etc/letsencrypt.ini /etc/ && \
+#    cp -r nginx-proxy-manager/docker/rootfs/etc/letsencrypt.ini /etc/ && \
 
     # Remove the nginx development config.
     rm /etc/nginx/conf.d/dev.conf && \
@@ -160,7 +160,7 @@ RUN \
     ln -s /config/production.json /opt/nginx-proxy-manager/config/production.json && \
 
     # Make sure letencrypt certificates are stored in persistent volume.
-    ln -s /config/letsencrypt /etc/letsencrypt && \
+#    ln -s /config/letsencrypt /etc/letsencrypt && \
 
     # Cleanup.
     del-pkg build-dependencies && \
